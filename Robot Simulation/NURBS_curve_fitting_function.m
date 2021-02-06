@@ -50,6 +50,7 @@ for t = 0 : samp : max(knot_vector)
     C(round(t/samp + 1),:) = sum;
 end
 
+figure('name', 'NURBS Fitting')
 plot3(Data_Point(1,:),Data_Point(2,:),Data_Point(3,:),'ro',C(:,1),C(:,2),C(:,3));
 grid on;
 

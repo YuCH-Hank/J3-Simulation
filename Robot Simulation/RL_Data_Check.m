@@ -2,11 +2,37 @@ clc ; clear; close all ;
 %% RL Data Check
 % Date  2021/01/29
 % =================================
+%% ================== Data Processing ================== 
+resource = 0; % 0 = mat, 1 = data
+if (resource == 0)
+    path = 'Data\Command.mat';
+    load(path);
+    fprintf('Total Usable Command number %d\n', Command.Total_C);
+else
+    Data = load( ['Data\','state_set.txt' ]) ;
+    Data = Data(:,1:6) * 180 / pi();
 
-JointData = load( 'Joint.txt' ) ;
+    Command = Data_Processing(Data, true, 'Data\Command.mat');
+end
 
-Parameter = NURBS_curve_fitting_function (JointData' , round(length(JointData(:,1)) * 0.05 )  , 3 , 0.001);
+pick = randi(Command.Total_C,1);
+fprintf('Pick Command number %d \n', pick);
+
+Joint = Command.Joint{pick};
+
+%% ================== NURBS Fitting ================== 
+Parameter = NURBS_curve_fitting_function (Joint(:,1:6)' , 10  , 3 , 0.001);
 JointData = Parameter.Curve;
+figure('name', 'Joint')
+for i = 1 : 6
+   subplot(2,3,i);
+   plot(linspace(1,1000,length(JointData(:,1))),JointData(:,i),'-r');
+   hold on;
+   plot(linspace(1,1000,length(Joint(:,1))),Joint(:,i),'-b');
+   hold on;
+end
+
+%% ================== Forward Kinematics ================== 
 config = Config('Experiment');
 [Object, PLOT, Controller, Robot, Record, Home_pose, ~, ~, Scurve_Method] = config.Get_Config;
 
@@ -19,7 +45,7 @@ for i = 1 : length(JointData(:,1))
     Record.Cartesian.EEFRecord                                          = [Record.Cartesian.EEFRecord;      C_NowPosition(i,:)];
 end
 
-%%
+%% ================== Plot ================== 
 figure ('name' , 'robot');
 for i = 1 : 20 : length(JointData(:,1))
     
