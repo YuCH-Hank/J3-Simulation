@@ -1,4 +1,11 @@
-function Output = Data_Processing(Input, save_, path)
+function Output = Data_Processing(Input, save_, path, low_pass_)
+%% >>>> low_pass
+if (low_pass_)
+    Input = lowpass(Input,100,1000);
+end
+
+
+%% >>>>>>> Find Segment
 Zero = find(Input(:,2) > -5);
 
 segment = [];
@@ -11,7 +18,7 @@ end
 number = zeros(1,length(segment));
 for i = 2 : length(segment)
    for j = segment(i,2) : -1 : segment(i , 1) + 20
-      if (abs(Input(j, 2) - Input(j + 1, 2))  > 15)
+      if (abs(Input(j, 2) - Input(j + 1, 2))  > 5)
           number(i) = j;
       end
    end
@@ -23,6 +30,7 @@ for i = 2 : length(number)
    end
 end
 
+%% >>>>>>> Command Generation
 Command = struct (  'Joint',    [],...
                     'Converge', [],...
                     'segment',  segment',...

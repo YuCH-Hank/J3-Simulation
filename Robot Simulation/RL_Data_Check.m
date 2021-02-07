@@ -3,7 +3,7 @@ clc ; clear; close all ;
 % Date  2021/01/29
 % =================================
 %% ================== Data Processing ================== 
-resource = 0; % 0 = mat, 1 = data
+resource = 1; % 0 = mat, 1 = data
 if (resource == 0)
     path = 'Data\Command.mat';
     load(path);
@@ -12,7 +12,8 @@ else
     Data = load( ['Data\','state_set.txt' ]) ;
     Data = Data(:,1:6) * 180 / pi();
 
-    Command = Data_Processing(Data, true, 'Data\Command.mat');
+    %         Data_Processing(Input, save_, path,               low_pass)
+    Command = Data_Processing(Data, true, 'Data\Command.mat',   false);
 end
 
 pick = randi(Command.Total_C,1);
@@ -21,16 +22,8 @@ fprintf('Pick Command number %d \n', pick);
 Joint = Command.Joint{pick};
 
 %% ================== NURBS Fitting ================== 
-Parameter = NURBS_curve_fitting_function (Joint(:,1:6)' , 10  , 3 , 0.001);
+Parameter = NURBS_curve_fitting_function (Joint(:,1:6)' , 5  , 3 , 0.001);
 JointData = Parameter.Curve;
-figure('name', 'Joint')
-for i = 1 : 6
-   subplot(2,3,i);
-   plot(linspace(1,1000,length(JointData(:,1))),JointData(:,i),'-r');
-   hold on;
-   plot(linspace(1,1000,length(Joint(:,1))),Joint(:,i),'-b');
-   hold on;
-end
 
 %% ================== Forward Kinematics ================== 
 config = Config('Experiment');

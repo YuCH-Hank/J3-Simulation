@@ -51,8 +51,23 @@ for t = 0 : samp : max(knot_vector)
 end
 
 figure('name', 'NURBS Fitting')
-plot3(Data_Point(1,:),Data_Point(2,:),Data_Point(3,:),'ro',C(:,1),C(:,2),C(:,3));
-grid on;
+% plot3(Data_Point(1,:),Data_Point(2,:),Data_Point(3,:),'ro',C(:,1),C(:,2),C(:,3));
+% grid on;
+for i = 1 : length(C(1,:))
+   subplot(2,3,i);
+   plot(linspace(1,1000,length(Data_Point(i,:))), Data_Point(i,:), 'ro');
+   hold on;
+   plot(linspace(1,1000,length(C(:,i))), C(:,i),'-b');
+   hold on;
+   x = linspace(1,1000,length(Control_Point(:,i)));
+   plot(x, Control_Point(:,i), 'b+');
+   for j = 1 : length(Control_Point(:,i)) - 1
+       line([x(j),       x(j + 1)],...
+            [Control_Point(j,i), Control_Point(j + 1,i)],'Color','blue','LineStyle','--');
+       hold on;
+   end
+   hold off;
+end
 
 %% Error
 Error = 0;
