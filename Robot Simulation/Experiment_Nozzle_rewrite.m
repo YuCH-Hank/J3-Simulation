@@ -1,6 +1,6 @@
 clc ; clear; close all ;
 %% Simulation for J3 Nozzle pick and place
-% Date  2001/01/17
+% Date  2021/01/17
 % =================================
 %% >>>> J3 System Model
 
@@ -15,7 +15,7 @@ Scurve_j = Scurve_Jerk();
 
 %% >>>> Stuff
 config = Config('Experiment');
-%config.Collection;
+config.Collection;
 [Object, PLOT, Controller, Robot, Record, Home_pose, ~, ~, Scurve_Method] = config.Get_Config;
                     
 % >>>> Delay

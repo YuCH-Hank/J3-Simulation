@@ -78,7 +78,7 @@ if(~Endflag)
         
         
         %% Simulation Process
-        fprintf('J_Seg\t %d/%d \tSteps = %d \t time = %.2fs\n',i, length(JointCmd_Seg(:,1)), length(JointCmd(1,:)), t1 * SamplingTime);
+        fprintf('>>>> J_Seg\t %d/%d \tSteps = %d \t time = %.2fs\n',i, length(JointCmd_Seg(:,1)), length(JointCmd(1,:)), t1 * SamplingTime);
 
         while (sqrt(sum(  (JointCmd_Seg(i,:) - Robot.pos').^2 )) > RL.thereshould)
             

@@ -1,4 +1,4 @@
-classdef Controller < handle
+classdef Class_Controller < handle
     properties
         type
         position = struct(  'Kp'        , [ 250 ; 250 ; 200 ; 250 ; 150 ; 350 ] ,...
@@ -10,7 +10,7 @@ classdef Controller < handle
     end
     
     methods
-        function this = Controller(type)
+        function this = Class_Controller(type)
             this.type = type;
         end
         
