@@ -32,6 +32,9 @@ Scurve_j = Scurve_Jerk();
 Parameter = NURBS_curve_fitting_function (Joint(:,1:6)' , 4  , 3 , 0.001);
 JointData = Parameter.Curve;
 
+% >>>>
+clear resource Joint pick path Data
+
 %% ================== Configuration ================== 
 % >>>> ITRI_parameter
 [ITRI_parameter, DH_table, SamplingTime] = ITRI_Parameter;
@@ -45,7 +48,7 @@ config = Config('Experiment');
 Controller = Class_Controller('position');
 Controller.Collection;
 
-%% Path Planning
+%% ====================== Path Planning to Initial Position =======================
 % >>>> Joint space Scurve
 
 if (Scurve_Method.All)
@@ -76,7 +79,7 @@ switch Option  % 0: original, 1: time sync, 2: Jerk
 end
 
 
-%% Simulation Process
+%% ===================== PTP Simulation Process ==========================
 % >>>> Get Initial Angle
 NowJoint = Home_pose;
 
@@ -112,11 +115,11 @@ for i = 1 : length( Time1 )
    
 end
 
-%% ================== Forward Kinematics ================== 
+%% ================== RL Forward Kinematics ================== 
 
 [ITRI_parameter, DH_table, SamplingTime] = ITRI_Parameter;
 
-for i = 1 : length(JointData(:,1))
+for i = 1 :  length(JointData(:,1))
     [ Info  ,  C_NowEulerAngle(i,:) , C_NowPosition(i,:) ] = ForwardKinemetics( DH_table , Robot.pos') ;
     Robot = Controller.Control_Law( [JointData(i, :), JointData(i, :)], Robot, SamplingTime);
     
@@ -131,13 +134,14 @@ end
 %% ================== Plot ================== 
 disp('Press Any Botton to Continue......................'); pause;
 figure ('name' , 'robot');
-for i = 1 : 20 : length(JointData(:,1))
+for i = 1 : 20 : (length ( Time1) + length(JointData(:,1)) )
     
     Draw_RobotManipulator(  Record.Joint.JointPosRecord( 3*(i-1)+1:3*(i-1)+3 , 1:length(Info.JointPos) ) , ...
                             Record.Joint.JointDirRecord( 3*(i-1)+1:3*(i-1)+3 , 1:length(Info.JointDir) ) , ...
                             PLOT.robot.Axis , PLOT.robot.Augmented) ;
     Draw_Trajectory(  Record.Cartesian.EEFRecord(1:i,1:3) );
     Draw_Base();
+    
     pause(SamplingTime);
     
     hold off;
