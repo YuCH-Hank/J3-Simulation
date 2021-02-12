@@ -64,7 +64,7 @@ classdef Class_Controller < handle
                    fprintf('\tKp : ');fprintf('%.1f\t',this.position.Kp');fprintf('\n');
                    fprintf('\tKv : ');fprintf('%.1f\t',this.position.Kv');fprintf('\n');
                case('velocity')
-                   fprintf('\tVelocity Controller\n');
+                   fprintf('\nVelocity Controller\n');
                    fprintf('\tKiv : ');fprintf('%.1f\t',this.velocity.Kiv');fprintf('\n');
                    fprintf('\tKfv : ');fprintf('%.1f\t',this.velocity.Kfv');fprintf('\n');
                    fprintf('\tKpv : ');fprintf('%.1f\t',this.velocity.Kpv');fprintf('\n');

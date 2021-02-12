@@ -2,7 +2,7 @@ clc; clear; close all;
 %% ====================== Robot Simulation Demo ======================
 % 2021/02/11
 % =======================================================================
-global Object Robot Controller Record Scurve_j Scurve_Method TimerFlag FinalPose
+global Object Robot Controller Record Scurve_j Scurve_Method TimerFlag EndFlag FinalPose
 global ITRI_parameter ITRI_Limitation SamplingTime Home_pose DH_table start
 
 %% >>>> Class
@@ -29,155 +29,113 @@ Scurve_j = Scurve_Jerk();
 ITRI_Limitation = ITRI_Constraint( ITRI_parameter.GearRatio );
 
 %% >>>> Parameter
+FinalPose = [0, 0, 180];
 TimerFlag = 0;
+EndFlag = false;
 start = false;
-
 
 %% >>>> Simulatation Process
 disp(' ');disp('Press Esc to end program');
 
 while (read(kb).ESC == false)
-    %% >>>> Timer Stay  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    if (TimerFlag == 0)
+    
+    if (TimerFlag == 0)         %% >>>> Timer Stay
         if (~start)
-            Pos = Home_pose';
-            start = true;
+            disp(' ');disp('>>>> TimerFlag == 0 ');
+            Pos = Home_pose';  Reset;
         end
         
-        % >>>> Send Command
         Timer_Stay(Pos, 500);
         
-    %% >>>> Path 1 Joint Space PTP to Target Point >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    elseif (TimerFlag == 1)
+    elseif (TimerFlag == 1)     %% >>>> Path 1 Joint Space PTP
         if (~start)
-            Ini = Robot.pos';
-            % >>>> final pose
-            FinalPose       = [0, 0, 180];
-            FinalPosition   = [Object.Center(1), Object.Center(2), Object.Center(3) + Object.Width(3)/2 + Object.distance];
-            
-            % Inverse Kinemetics calculate angle
-            [ InverseJointAngle_Final , SingularFlag2 ] = InverseKinemetics( FinalPose , FinalPosition , DH_table ) ;
-            
-            % >>>> find best angle
-            OptimalSol_Final   = FindOptSol( InverseJointAngle_Final   , Home_pose ) ;
-            Fin = OptimalSol_Final;
-            start = true;
+            disp(' ');disp('>>>> TimerFlag == 1 ');
+            FinalPosition = [Object.Center(1), Object.Center(2), Object.Center(3) + Object.Width(3)/2 + Object.distance];
+            [Ini, Fin] = Joint_Space(FinalPosition); Reset;
         end
         
-        % >>>> Send Command
         PTP (Ini, Fin);
         
-    %% >>>> Timer Stay  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    elseif (TimerFlag == 2)
+    elseif (TimerFlag == 2)     %% >>>> Timer Stay
         if (~start)
-            Pos = Robot.pos;
-            start = true;
+            disp(' ');disp('>>>> TimerFlag == 2 ');
+            Pos = Robot.pos;  Reset;
         end
         
-        % >>>> Send Command
         Timer_Stay(Pos, 200);
         
-    %% >>>> Path 2 Cartesian Space PTP to Target Point >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    elseif (TimerFlag == 3)
+    elseif (TimerFlag == 3)      %% >>>> Path 2 Cartesian Space PTP
         if (~start)
+            disp(' ');disp('>>>> TimerFlag == 3 ');
             [ Info  ,  NowEulerAngle , Ini ] = ForwardKinemetics( DH_table , Robot.pos' ) ;
             FinalPosition = FinalPosition - [0, 0, Object.distance];
-            Fin = FinalPosition;
-            Controller.velocity.error = [];
-            start = true;
+            Fin = FinalPosition; Reset;
         end
         
-        % >>>> Send Command
         PTP_C (Ini, Fin);
         
-    %% >>>> Timer Stay >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    elseif (TimerFlag == 4)
+    elseif (TimerFlag == 4)     %% >>>> Timer Stay
         if (~start)
-            Pos = Robot.pos;
-            start = true;
+            disp(' ');disp('>>>> TimerFlag == 4 ');
+            Pos = Robot.pos; Reset;
         end
+        
         Timer_Stay(Pos, 200);
         
-    %% >>>> Path 3 Cartesian Space PTP to Target Point >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    elseif (TimerFlag == 5)
+    elseif (TimerFlag == 5)     %% >>>> Path 3 Cartesian Space PTP to Target Point
         if (~start)
+            disp(' ');disp('>>>> TimerFlag == 5 ');
             [ Info  ,  NowEulerAngle , Ini ] = ForwardKinemetics( DH_table , Robot.pos' ) ;
             FinalPosition = FinalPosition + [0, 0, Object.distance*2];
-            Fin = FinalPosition;
-            Controller.velocity.error = [];
-            start = true;
+            Fin = FinalPosition; Reset;
         end
         
-        % >>>> Send Command
         PTP_C (Ini, Fin);
         
-    %% >>>> Timer Stay >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    elseif (TimerFlag == 6)
+    elseif (TimerFlag == 6)     %% >>>> Timer Stay
         if (~start)
-            Pos = Robot.pos;
-            start = true;
+            disp(' ');disp('>>>> TimerFlag == 6 ');
+            Pos = Robot.pos; Reset;
         end
+        
         Timer_Stay(Pos, 200);
         
-    %% >>>> Path 4 Joint Space PTP to Target Point >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    elseif (TimerFlag == 7)
+    elseif (TimerFlag == 7)     %% >>>> Path 4 Joint Space PTP to Target Point
         if (~start)
-            Ini = Robot.pos';
-            
-            % >>>> final pose
-            FinalPose       = [0, 0, 180];
+            disp(' ');disp('>>>> TimerFlag == 7 ');
             FinalPosition   = [Object.Goal, Object.Width(3) - 27];
-
-            % Inverse Kinemetics calculate angle
-            [ InverseJointAngle_Final , SingularFlag2 ] = InverseKinemetics( FinalPose , FinalPosition , DH_table ) ;
-
-            % >>>> find best angle
-            Fin   = FindOptSol( InverseJointAngle_Final   , Home_pose ) ;
-            Controller.velocity.error = [];
-            start = true;
+            [Ini, Fin] = Joint_Space(FinalPosition); Reset;
         end
         
-        % >>>> Send Command
         PTP (Ini, Fin);
         
-    %% >>>> Timer Stay >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    elseif (TimerFlag == 8)
+    elseif (TimerFlag == 8)     %% >>>> Timer Stay
         if (~start)
-            Pos = Robot.pos;
-            start = true;
+            Object.Suction = false; EndFlag = true;
+            disp(' ');disp('>>>> TimerFlag == 8 ');
+            Pos = Robot.pos; Reset;
         end
+        
         Timer_Stay(Pos, 10);
         
-    %% >>>> Path 5 Joint Space PTP to Home Pose >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    elseif (TimerFlag == 9)
+    elseif (TimerFlag == 9)     %% >>>> Path 5 Joint Space PTP to Home Pose
         if (~start)
+            disp(' ');disp('>>>> TimerFlag == 9 ');
             Ini = Robot.pos';
-            % >>>> final pose
-            FinalPose       = [0, 0, 180];
-            FinalPosition   = [Object.Center(1), Object.Center(2), Object.Center(3) + Object.Width(3)/2 + Object.distance];
-            
-            % Inverse Kinemetics calculate angle
-            [ InverseJointAngle_Final , SingularFlag2 ] = InverseKinemetics( FinalPose , FinalPosition , DH_table ) ;
-            
-            % >>>> find best angle
-            OptimalSol_Final   = FindOptSol( InverseJointAngle_Final   , Home_pose ) ;
-            Fin = Home_pose;
-            start = true;
+            Fin = Home_pose; Reset;
         end
         
-        % >>>> Send Command
         PTP (Ini, Fin);
         
-    %% >>>> Timer Stay
-    elseif (TimerFlag == 10)
+    elseif (TimerFlag == 10)     %% >>>> Timer Stay
         if (~start)
-            Pos = Robot.pos;
-            start = true;
+            disp(' ');disp('>>>> TimerFlag == 10 ');
+            Pos = Robot.pos; Reset;
         end
+        
         Timer_Stay(Pos, 200);
         
-    % >>>> End of Program
-    elseif (TimerFlag == 11)
+    elseif (TimerFlag == 11)    %% >>>> End of Program
         break;
         
     end
@@ -191,6 +149,7 @@ for i = 1 : 20 : (length (Record.Time.t) )
                             Record.Joint.JointDirRecord( 3*(i-1)+1:3*(i-1)+3 , 1:21 ) , ...
                             PLOT.robot.Axis , PLOT.robot.Augmented) ;
     Draw_Trajectory(  Record.Cartesian.EEFRecord(1:i,1:3) );
+    Draw_Box(Record.Cartesian.CenterRecord(i,:), Object.Width, Object.Color);
     Draw_Base();
     
     pause(SamplingTime);
@@ -202,8 +161,21 @@ Record = PlotJointData(Record, Record.Time.t, Record.Time.Segment, PLOT);
 
 
  %% >>>> Functions
+ function [Ini, Fin] = Joint_Space(FinalPosition)
+ global Robot Home_pose start FinalPose DH_table
+     Ini = Robot.pos';
+
+     % Inverse Kinemetics calculate angle
+     [ InverseJointAngle_Final , SingularFlag2 ] = InverseKinemetics( FinalPose , FinalPosition , DH_table ) ;
+
+     % >>>> find best angle
+     OptimalSol_Final   = FindOptSol( InverseJointAngle_Final  , Home_pose ) ;
+     Fin = OptimalSol_Final;
+     start = true;
+ end
+ 
  function Timer_Stay(Pos, time)
- global Robot Controller Object Record TimerFlag SamplingTime DH_table start
+ global Robot Controller Object Record TimerFlag SamplingTime DH_table start EndFlag
  
  % >>>> Robot Kinetamics
  [ Info  ,  C_NowEulerAngle , C_NowPosition ] = ForwardKinemetics( DH_table , Robot.pos' ) ;
@@ -213,8 +185,10 @@ Record = PlotJointData(Record, Record.Time.t, Record.Time.Segment, PLOT);
  Robot = Controller.Control_Law( [PosCmd, VecCmd], Robot, SamplingTime);
  
  % >>>> Check Object
- if (abs(sqrt(sum((C_NowPosition - Object.Center) .^2)) - Object.Width(3)/2) < Object.thereshould )
-     Object.Suction = true;
+ if (~EndFlag)
+     if (abs(sqrt(sum((C_NowPosition - Object.Center) .^2)) - Object.Width(3)/2) < Object.thereshould )
+         Object.Suction = true;
+     end
  end
  
  if (Object.Suction)
@@ -263,7 +237,7 @@ Record = PlotJointData(Record, Record.Time.t, Record.Time.Segment, PLOT);
  
  function PTP (Ini, Fin)
  global Robot Controller Object Record TimerFlag SamplingTime DH_table Scurve_Method Scurve_j
- global ITRI_Limitation start
+ global ITRI_Limitation start EndFlag
  
  % >>>> Initial
  if (~Record.Command.Initial)
@@ -311,8 +285,10 @@ Record = PlotJointData(Record, Record.Time.t, Record.Time.Segment, PLOT);
  Robot = Controller.Control_Law( [PosCmd, VecCmd], Robot, SamplingTime);
  
  % >>>> Check Object
- if (abs(sqrt(sum((C_NowPosition - Object.Center) .^2)) - Object.Width(3)/2) < Object.thereshould )
-      Object.Suction = true;
+ if (~EndFlag)
+     if (abs(sqrt(sum((C_NowPosition - Object.Center) .^2)) - Object.Width(3)/2) < Object.thereshould )
+          Object.Suction = true;
+     end
  end
  
  if (Object.Suction)
@@ -471,4 +447,11 @@ Record = PlotJointData(Record, Record.Time.t, Record.Time.Segment, PLOT);
      start = false;
      Record.Command.Initial = false;
  end
+ end
+ 
+ function Reset
+ global Controller start
+ 
+ Controller.velocity.error = [];
+ start = true;
  end
