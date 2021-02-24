@@ -67,8 +67,8 @@ while (read(kb).ESC == false)
     elseif (TimerFlag == 3)      %% >>>> Path 2 Cartesian Space PTP
         if (~start)
             disp(' ');disp('>>>> TimerFlag == 3 ');
-            [ Info  ,  NowEulerAngle , Ini ] = ForwardKinemetics( DH_table , Robot.pos' ) 
-            FinalPosition = FinalPosition - [0, 0, Object.distance]
+            [ Info  ,  NowEulerAngle , Ini ] = ForwardKinemetics( DH_table , Robot.pos' ) ;
+            FinalPosition = FinalPosition - [0, 0, Object.distance];
             Fin = FinalPosition; Reset;
         end
         
@@ -389,7 +389,6 @@ Record = PlotJointData(Record, Record.Time.t, Record.Time.Segment, PLOT);
  [ Info  ,  C_NowEulerAngle , C_NowPosition ] = ForwardKinemetics( DH_table , Robot.pos' ) ;
  
  % Inverse Kinemetics calculate angle
- Record.Command.Position(1:3, Record.Command.count)'
  [ InverseAngle , SingularFlag2 ] = InverseKinemetics( FinalPose , Record.Command.Position(1:3, Record.Command.count)' , DH_table ) ;
  OptimalSol   = FindOptSol( InverseAngle , Robot.pos' ) ;
  
