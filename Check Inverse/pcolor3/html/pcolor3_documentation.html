@@ -1,0 +1,267 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pcolor3 documentation</title><meta name="generator" content="MATLAB 8.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-03-12"><meta name="DC.source" content="pcolor3_documentation.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1><tt>pcolor3</tt> documentation</h1><!--introduction--><p>This function plots a 3D data volume as color-scaled semitransparent surface planes in each dimension.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Example 1: Simplest case</a></li><li><a href="#5">Example 2: Adjusting appearance</a></li><li><a href="#7">Example 3: Atmosphere or ocean dataset</a></li><li><a href="#10">Author Info</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>pcolor3(V)
+pcolor3(X,Y,Z,V)
+pcolor3(...,'alpha',AlphaValue)
+pcolor3(...,'edgealpha',EdgeAlphaValue)
+pcolor3(...,'alphalim',AlphaLimits)
+pcolor3(...,InterpolationMethod)
+pcolor3(...,'N',NumberOfSlices)
+pcolor3(...,'Nx',NumberOfXSlices)
+pcolor3(...,'Ny',NumberOfYSlices)
+pcolor3(...,'Nz',NumberOfZSlices)
+h = pcolor3(...)</pre><h2>Description<a name="2"></a></h2><p><tt>pcolor3(V)</tt> plots a field of 3D volume <tt>V</tt>.</p><p><tt>pcolor3(X,Y,Z,V)</tt> plots 3D volume <tt>V</tt> at locations given by <tt>X,Y,Z</tt>. <tt>X, Y,</tt> and <tt>Z</tt> can be 3D matrices matching the dimensions of <tt>V</tt>, or 1D arrays.</p><p><tt>pcolor3(...,'alpha',AlphaValue)</tt> specifies a volume transparency value between <tt>0</tt> (completely transparent) and <tt>1</tt> (completely opaque). Default <tt>AlphaValue</tt> is <tt>0.01</tt>. This value may seem surprisingly low, but remember that you'll be looking through 100 slices--they add up.</p><p><tt>pcolor3(...,'edgealpha',EdgeAlphaValue)</tt> specifies transparency of sides of the volume faces of the volume. An <tt>EdgeAlphaValue</tt> greater than the volume <tt>AlphaValue</tt> helps define corners and edges, especially in the presence of lighting objects. Default <tt>EdgeAlphaValue</tt> is <tt>0.05</tt>.</p><p><tt>pcolor3(...,'alphalim',AlphaLimits)</tt> scales transparency values with values of <tt>V</tt>. This can help highlight a variable of interest by making low <tt>V</tt> values invisible. <tt>AlphaLimits</tt> is a two-element array corresponding of values in <tt>V</tt>. If <tt>AlphaLimits</tt> is <tt>'auto'</tt>, <tt>AlphaLimits</tt> is taken as <tt>[min(V(:)) max(V(:))]</tt>.</p><p><i>Tip:</i> If interesting values diverge about an uninteresting mean (e.g., temperature of 25 is not interesting whereas T = 10 is interesting and T = 40 is also interesting), use <tt>'alphalim',[25 40]</tt> and select a colormap that diverges from 25. Although T = 10 is well below the minimum <tt>AlphaLimits</tt>, 10 and 40 are equidistant from 25 and are therefore given equal opacity.</p><p><tt>pcolor3(...,InterpolationMethod)</tt> specifies an interpolation method as:</p><div><ul><li><tt>'linear'</tt>  trilinear slice interpolation (default),</li><li><tt>'cubic'</tt>   tricubic slice interpolation,</li><li><tt>'nearest'</tt> nearest-neighbor slice interpolation, or</li><li><tt>'direct'</tt>  plots data directly instead of interpolated slices (fastest?).</li></ul></div><p><tt>pcolor3(...,'N',NumberOfSlices)</tt> specifies a number of slices in each direction. Default value is <tt>100</tt>. Increasing number of slices can make a smoother, higher quality graphic, but may slow performance.</p><p><tt>pcolor3(...,'Nx',NumberOfXSlices)</tt> specifies a number of slices in the x direction. Default value is <tt>100</tt>.</p><p><tt>pcolor3(...,'Ny',NumberOfYSlices)</tt> specifies a number of slices in the y direction. Default value is <tt>100</tt>.</p><p><tt>pcolor3(...,'Nz',NumberOfZSlices)</tt> specifies a number of slices in the z direction. Default value is <tt>100</tt>.</p><p><tt>h = pcolor3(...)</tt> returns a vector of handles to surface graphics objects.</p><h2>Example 1: Simplest case<a name="3"></a></h2><p>Using this sample data:</p><pre class="codeinput">[x,y,z] = meshgrid(-2:.05:2,-2:.1:2,-2:.1:2);
+v = x.*exp(-x.^2-y.^2-z.^2) + 1;
+</pre><p>Plot a simple 3D field:</p><pre class="codeinput">figure
+pcolor3(v)
+axis <span class="string">tight</span>
+</pre><img vspace="5" hspace="5" src="pcolor3_documentation_01.png" alt=""> <h2>Example 2: Adjusting appearance<a name="5"></a></h2><p>Using data from Example 1, specify x,y,z values, make sides and top a tad more opaque, and then customize appearance. Below I'm using the <a href="http://www.mathworks.com/matlabcentral/fileexchange/46874-rgbmap-color-maps/content//rgbmapdemo/html/rgbmap_demo.html"><tt>rgbmap</tt></a> to specify a blue-white-red colormap.</p><pre class="codeinput">figure
+pcolor3(x,y,z,v,<span class="string">'edgealpha'</span>,.1)
+
+rgbmap(<span class="string">'blue'</span>,<span class="string">'white'</span>,<span class="string">'red'</span>)
+colorbar
+caxis([0.8 1.2])
+camlight
+view(160,36)
+</pre><img vspace="5" hspace="5" src="pcolor3_documentation_02.png" alt=""> <p>In the figure above, values near 1 are somewhat uninteresting, but their opacity gets in the way of us seeing the much more interesting -0.8 and 1.2 values. With <tt>pcolor3</tt>, you can set transparency of each datapoint scaled to its value.  For values like pollutant concentrations, enter <tt>'alphalim','auto'</tt> will automatically scale transparency such that higher concentrations are more opaque.  But for this dataset, values diverge about 1--we want to make all ones transparent, making datapoints more opaque the farther the get from one (greater than one <i>or</i> less than one).  So for our dataset, the first value in <tt>AlphaLimits</tt> should be 1 because we want all ones to be transparent.  Set the second value in <tt>AlphaLimits</tt> to some value greater than 1:</p><pre class="codeinput">figure
+pcolor3(x,y,z,v,<span class="string">'alphalim'</span>,[1 1.2],<span class="string">'cubic'</span>,<span class="string">'edgealpha'</span>,.1)
+
+rgbmap(<span class="string">'blue'</span>,<span class="string">'white'</span>,<span class="string">'red'</span>)
+colorbar
+caxis([0.8 1.2])
+camlight
+view(160,36)
+</pre><img vspace="5" hspace="5" src="pcolor3_documentation_03.png" alt=""> <h2>Example 3: Atmosphere or ocean dataset<a name="7"></a></h2><p>Suppose you have a 3D air temperature or ocean salinity dataset that looks like this:</p><pre class="codeinput">[lon,lat,z] = meshgrid(-180:3:180,-80:2:80,0:100:2000);
+T = 30 - .1*abs(lat) - .01*z + sind(lon);
+</pre><p>The <tt>T</tt> variable is 81x121x21. By default, <tt>pcolor3</tt> interpolates <tt>T</tt> to 100x100x100, but in some cases it's faster simply to plot the whole dataset without interpolating, using the <tt>'direct'</tt> command:</p><pre class="codeinput">figure
+pcolor3(lon,lat,z,T,<span class="string">'direct'</span>,<span class="string">'alphalim'</span>,<span class="string">'auto'</span>)
+
+<span class="comment">% format:</span>
+xlabel(<span class="string">'longitude'</span>)
+ylabel(<span class="string">'latitude'</span>)
+zlabel(<span class="string">'elevation (m)'</span>)
+axis <span class="string">tight</span>
+set(gca,<span class="string">'xtick'</span>,[-180 -90 0 90 180],<span class="keyword">...</span>
+    <span class="string">'ytick'</span>,[-45 0 45])
+</pre><img vspace="5" hspace="5" src="pcolor3_documentation_04.png" alt=""> <p>If you have Matlab's Mapping Toolbox,</p><pre class="codeinput">c = load(<span class="string">'coast.mat'</span>);
+plot(c.long,c.lat)
+</pre><img vspace="5" hspace="5" src="pcolor3_documentation_05.png" alt=""> <h2>Author Info<a name="10"></a></h2><p>This function was written by <a href="http://www.chadagreene.com">Chad A. Greene</a> of the University of Texas at Austin's Institute for Geophysics (UTIG), March 2015.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2012b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% |pcolor3| documentation
+% This function plots a 3D data volume as color-scaled semitransparent
+% surface planes in each dimension.  
+% 
+%% Syntax
+% 
+%  pcolor3(V)
+%  pcolor3(X,Y,Z,V) 
+%  pcolor3(...,'alpha',AlphaValue)
+%  pcolor3(...,'edgealpha',EdgeAlphaValue)
+%  pcolor3(...,'alphalim',AlphaLimits)
+%  pcolor3(...,InterpolationMethod)
+%  pcolor3(...,'N',NumberOfSlices)
+%  pcolor3(...,'Nx',NumberOfXSlices)
+%  pcolor3(...,'Ny',NumberOfYSlices)
+%  pcolor3(...,'Nz',NumberOfZSlices)
+%  h = pcolor3(...)
+% 
+%% Description
+% 
+% |pcolor3(V)| plots a field of 3D volume |V|. 
+%
+% |pcolor3(X,Y,Z,V)| plots 3D volume |V| at locations given by |X,Y,Z|. |X, Y,| and
+% |Z| can be 3D matrices matching the dimensions of |V|, or 1D arrays. 
+%
+% |pcolor3(...,'alpha',AlphaValue)| specifies a volume transparency value
+% between |0| (completely transparent) and |1| (completely opaque). Default |AlphaValue| is
+% |0.01|. This value may seem surprisingly low, but remember that you'll be
+% looking through 100 slicesREPLACE_WITH_DASH_DASHthey add up. 
+% 
+% |pcolor3(...,'edgealpha',EdgeAlphaValue)| specifies transparency of sides of
+% the volume faces of the volume. An |EdgeAlphaValue| greater than the volume
+% |AlphaValue| helps define corners and edges, especially in the presence of
+% lighting objects. Default |EdgeAlphaValue| is |0.05|. 
+% 
+% |pcolor3(...,'alphalim',AlphaLimits)| scales transparency values with
+% values of |V|. This can help highlight a variable of interest by making
+% low |V| values invisible. |AlphaLimits| is a two-element array
+% corresponding of values in |V|. If |AlphaLimits| is |'auto'|,
+% |AlphaLimits| is taken as |[min(V(:)) max(V(:))]|. 
+% 
+% _Tip:_ If interesting values diverge about an uninteresting mean (e.g., 
+% temperature of 25 is not interesting whereas T = 10 is interesting and T = 40 is also
+% interesting), use |'alphalim',[25 40]| and select a colormap that
+% diverges from 25. Although T = 10 is well below the minimum
+% |AlphaLimits|, 10 and 40 are equidistant from 25 and are therefore given
+% equal opacity. 
+%
+% |pcolor3(...,InterpolationMethod)| specifies an interpolation method as:
+% 
+% * |'linear'|  trilinear slice interpolation (default), 
+% * |'cubic'|   tricubic slice interpolation,
+% * |'nearest'| nearest-neighbor slice interpolation, or
+% * |'direct'|  plots data directly instead of interpolated slices (fastest?).
+%
+% |pcolor3(...,'N',NumberOfSlices)| specifies a number of slices in each
+% direction. Default value is |100|. Increasing number of slices can make a
+% smoother, higher quality graphic, but may slow performance. 
+%
+% |pcolor3(...,'Nx',NumberOfXSlices)| specifies a number of slices in the x
+% direction. Default value is |100|. 
+%
+% |pcolor3(...,'Ny',NumberOfYSlices)| specifies a number of slices in the y
+% direction. Default value is |100|. 
+%
+% |pcolor3(...,'Nz',NumberOfZSlices)| specifies a number of slices in the z
+% direction. Default value is |100|. 
+% 
+% |h = pcolor3(...)| returns a vector of handles to surface graphics objects. 
+% 
+%% Example 1: Simplest case
+% Using this sample data:  
+
+[x,y,z] = meshgrid(-2:.05:2,-2:.1:2,-2:.1:2);
+v = x.*exp(-x.^2-y.^2-z.^2) + 1;
+
+%% 
+% Plot a simple 3D field: 
+figure
+pcolor3(v)
+axis tight
+
+%% Example 2: Adjusting appearance
+% Using data from Example 1, specify x,y,z values, make sides and top a tad more opaque, and then customize
+% appearance. Below I'm using the <http://www.mathworks.com/matlabcentral/fileexchange/46874-rgbmap-color-maps/content//rgbmapdemo/html/rgbmap_demo.html
+% |rgbmap|> to specify a blue-white-red colormap. 
+
+figure
+pcolor3(x,y,z,v,'edgealpha',.1)
+
+rgbmap('blue','white','red')
+colorbar
+caxis([0.8 1.2])
+camlight
+view(160,36)
+
+%% 
+% In the figure above, values near 1 are somewhat uninteresting, but their opacity gets
+% in the way of us seeing the much more interesting -0.8 and 1.2 values.
+% With |pcolor3|, you can set transparency of each datapoint scaled to its
+% value.  For values like pollutant concentrations, enter
+% |'alphalim','auto'| will automatically scale transparency such that
+% higher concentrations are more opaque.  But for this dataset, values
+% diverge about 1REPLACE_WITH_DASH_DASHwe want to make all ones transparent, making datapoints
+% more opaque the farther the get from one (greater than one _or_ less than
+% one).  So for our dataset, the first value in |AlphaLimits| should be 1
+% because we want all ones to be transparent.  Set the second value in
+% |AlphaLimits| to some value greater than 1: 
+
+figure
+pcolor3(x,y,z,v,'alphalim',[1 1.2],'cubic','edgealpha',.1)
+
+rgbmap('blue','white','red')
+colorbar
+caxis([0.8 1.2])
+camlight
+view(160,36)
+
+%% Example 3: Atmosphere or ocean dataset 
+% Suppose you have a 3D air temperature or ocean salinity dataset that
+% looks like this: 
+
+[lon,lat,z] = meshgrid(-180:3:180,-80:2:80,0:100:2000); 
+T = 30 - .1*abs(lat) - .01*z + sind(lon); 
+
+%% 
+% The |T| variable is 81x121x21. By default, |pcolor3| interpolates |T| to 
+% 100x100x100, but in some cases it's faster simply to plot the whole
+% dataset without interpolating, using the |'direct'| command:  
+ 
+figure
+pcolor3(lon,lat,z,T,'direct','alphalim','auto')
+
+% format:
+xlabel('longitude')
+ylabel('latitude')
+zlabel('elevation (m)') 
+axis tight
+set(gca,'xtick',[-180 -90 0 90 180],...
+    'ytick',[-45 0 45])
+
+%% 
+% If you have Matlab's Mapping Toolbox, 
+
+c = load('coast.mat'); 
+plot(c.long,c.lat)
+
+%% Author Info
+% This function was written by <http://www.chadagreene.com Chad A. Greene>
+% of the University of Texas at Austin's Institute for Geophysics (UTIG), March 2015. 
+
+##### SOURCE END #####
+--></body></html>

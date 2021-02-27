@@ -46,11 +46,11 @@ switch ch
     case 3
         path = 'Data/Scurve_TimeSync.txt'
     case 4
-        path = 'Data/C_Minimum Jerk.txt'
+        path = 'Data/C_Minimum_Jerk.txt'
     case 5
         path = 'Data/C_Scurve_MultiAxis.txt'
     case 6
-        path = 'Data/C_Time sync.txt'
+        path = 'Data/C_Time_sync.txt'
 end
 Command  = load(path);
 

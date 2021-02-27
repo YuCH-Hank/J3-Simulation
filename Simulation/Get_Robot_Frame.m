@@ -1,0 +1,13 @@
+ [ Info  ,  C_NowEulerAngle , C_NowPosition ] = ForwardKinemetics( DH_table , [0,0,0,0,0,0] ) ;
+
+Draw_RobotManipulator(  Info.JointPos , ...
+    Info.JointDir , ...
+    true , true) ;
+Draw_Base();
+InitialPosition = [ 44.9413    2.6860   19.4889 ];
+
+
+FinalPosition = [ 54.9413   22.6860   14.4889 ];
+line([InitialPosition(1), FinalPosition(1)],...
+    [InitialPosition(2), FinalPosition(2)],...
+    [InitialPosition(3), FinalPosition(3)],'Color','Red','LineWidth',2);

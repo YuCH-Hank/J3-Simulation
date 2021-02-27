@@ -159,6 +159,9 @@ end
 
 Record = PlotJointData(Record, Record.Time.t, Record.Time.Segment, PLOT);
 
+line([InitialPosition(1), FinalPosition(1)],...
+     [InitialPosition(2), FinalPosition(2)],...
+     [InitialPosition(3), FinalPosition(3)]);
 
  %% >>>> Functions
  function [Ini, Fin] = Joint_Space(FinalPosition)
