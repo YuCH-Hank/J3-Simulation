@@ -1,10 +1,9 @@
 clc,clear
 % Cartesian Demo
 Pos = [ -40 + 120*rand(1,1),...
-    -40 + 80*rand(1,1),...
-    2 + 118*rand(1,1)];
+        -40 + 80*rand(1,1),...
+        2 + 118*rand(1,1)];
 
-([-40, 80, -40, 40, 2, 120]);
 sing = Cartesian_Limitation(Pos, 'Limitation');
 if (sing)
     clc;
